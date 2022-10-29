@@ -22,7 +22,7 @@ impl<T> LinkedList<T> {
         self.length
     }
 
-    pub fn empty(&self) -> bool {
+    pub fn is_empty(&self) -> bool {
         self.length == 0
     }
 
@@ -58,6 +58,23 @@ impl<T> LinkedList<T> {
         }
         self.length += 1;
     }
+
+    pub fn pop_front(&mut self) -> Option<T> {
+        match self.head {
+            None => return None,
+            Some(ref mut h) => {
+                let next = h.next.take();
+                let save_head = self.head.take();
+                self.head = next;
+                self.length -= 1;
+                return save_head.map(|x| x).map(|x| x.data);
+            }
+        }
+    }
+
+    pub fn pop_back(&mut self) -> Option<T> {
+        None
+    }
 }
 
 #[cfg(test)]
@@ -73,6 +90,15 @@ mod tests {
         list.push_front(3);
         list.push_front(2);
         list.push_front(1);
+        //1 2 3 100 200 300
+        assert_eq!(Some(1), list.pop_front());
+        assert_eq!(Some(2), list.pop_front());
+        assert_eq!(Some(3), list.pop_front());
+        assert_eq!(Some(100), list.pop_front());
+        assert_eq!(Some(200), list.pop_front());
+        assert_eq!(Some(300), list.pop_front());
+        assert_eq!(0, list.length());
+        assert!(list.is_empty());
         println!("{:?}", list);
     }
 }
