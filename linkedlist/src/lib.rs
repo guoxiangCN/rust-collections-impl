@@ -1,3 +1,5 @@
+use std::f32::consts::E;
+
 #[derive(Debug)]
 struct ListNode<T> {
     data: T,
@@ -25,7 +27,17 @@ impl<T> LinkedList<T> {
 
     #[inline]
     pub fn is_empty(&self) -> bool {
-        self.length == 0
+        let empty = self.length == 0;
+        if empty {
+            assert!(self.head.is_none());
+        }
+        return empty;
+    }
+
+    pub fn clear(&mut self) {
+        let link = self.head.take();
+        std::mem::drop(link);
+        self.length = 0;
     }
 
     pub fn push_front(&mut self, t: T) {
@@ -154,6 +166,20 @@ mod tests {
         assert_eq!(0, list.length());
         assert!(list.is_empty());
         println!("{:?}", list);
+    }
+
+    #[test]
+    fn test_linkedlist_clear() {
+        let mut list = LinkedList::new();
+        list.push_back(100);
+        list.push_back(200);
+        list.push_back(300);
+        list.push_front(3);
+        list.push_front(2);
+        list.push_front(1);
+        list.clear();
+        assert_eq!(list.length(), 0);
+        assert!(list.is_empty());
     }
 
     #[test]
