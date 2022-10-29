@@ -67,7 +67,7 @@ impl<T> LinkedList<T> {
                 let save_head = self.head.take();
                 self.head = next;
                 self.length -= 1;
-                return save_head.map(|x| x).map(|x| x.data);
+                return save_head.map(|x| x.data);
             }
         }
     }
