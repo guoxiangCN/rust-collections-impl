@@ -1,4 +1,3 @@
-use std::f32::consts::E;
 
 #[derive(Debug)]
 struct ListNode<T> {
@@ -199,6 +198,12 @@ mod tests {
         });
         let b = (*a).data; // 为什么这里可以move，下面一行不可以? 编译器不也是调用deref/deref_mut的么
                            // let b = a.deref_mut().data;  //
-        a.data2;
+        // ARC
+        use std::sync::Arc;
+        let ar = Arc::new(A{data: "aa".to_owned(), data2: 0});
+        let x = (*ar).data2;
+
+        // let x = (*ar).data;
+        // let x = ar.data.as_bytes();
     }
 }

@@ -2,6 +2,7 @@
 
 [workspace]
 members = [
+    "latch",
     "linkedlist",
     "skiplist",
 ]
